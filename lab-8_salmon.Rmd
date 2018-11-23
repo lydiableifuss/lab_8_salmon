@@ -37,7 +37,7 @@ salmon_model
 #y = β0 + β1x + ε
 #Imports(tons) = -14982940 + ?(7550)
 
-#???????? Where is the slope here? Is it -14982940? Is the intercept the year at 7550? What is the 25 (from the example in this case?)
+#???????? Where is the slope here? Is it 7550? Is the intercept the year at -14982940? What is the 25 (from the example in this case?)
 
 # What does the slope mean in the context of this model?
 #It's massive and doesn't make sense?
@@ -55,8 +55,9 @@ salmon_model
 
 plot(salmon_model)
 
-#Do residuals appear normally distributed? - Some more than others, need to understand the specifics behind how they work more 
-#Any concerns about heteroscedasticity or outliers? - Yes fo sho concerns, residuals are looking funky
+#Do residuals appear normally distributed? - Some more than others, need to understand the specifics behind how they work more. The square root on looks good but not the "residuals" one 
+
+#Any concerns about heteroscedasticity or outliers? - Yes fo sho concerns, residuals are looking funky, Cooks distance is something to look at...
 
 
   par(mfrow = c(2,2))
@@ -65,6 +66,34 @@ plot(salmon_model)
 
 ```{r}
 #Explore model fit and significance
+
+summary(salmon_model)
+
+#Does year significantly predict salmon imports?
+#Yes because p-value: < 2.2e-16 ??
+
+#What does the R2 value actually mean in words?
+#Multiple R-squared:  0.9478
+#94.8% of variance in salmon imports is explained by year
+
+#What proportion of the variance in salmon imports is NOT explained by year?
+#100 - 94.8 = ? Is that right?
+#Residual standard error: 14860 on 26 degrees of freedom - does error come into play here? 
+```
+
+```{r}
+#Prepare a final graph
+
+salmon_final_graph <- ggplot(salmon, aes(x = year, y = salmon_fresh)) + geom_point() +
+geom_smooth(method = lm, se = TRUE, size = 0.5, color = "gray20") + theme_bw() +
+scale_x_continuous(expand = c(0,0), limits = c(1990, 2017)) +
+labs(x = "Year", y = "U.S. Annual Fresh Salmon Imports\n(1,000 pounds)")
+salmon_final_graph
+```
+
+```{r}
+#Make Predictions Using the Model
+
 
 ```
 
