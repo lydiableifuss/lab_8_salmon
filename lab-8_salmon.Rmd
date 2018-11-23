@@ -35,7 +35,7 @@ salmon_model <- lm(salmon_fresh ~ year, data = salmon)
 salmon_model
 
 #y = β0 + β1x + ε
-#Imports(tons) = -14982940 + ?(7550)
+#Imports(tons) = 7550 + -14982940(Year)
 
 #???????? Where is the slope here? Is it 7550? Is the intercept the year at -14982940? What is the 25 (from the example in this case?)
 
@@ -94,6 +94,33 @@ salmon_final_graph
 ```{r}
 #Make Predictions Using the Model
 
+new_years <- data.frame(year = c(2022, 2024, 2026, 2028))
+new_years
 
+#Then feed that data frame into the predict() function, letting it know which model to use to make predictions for the new values.
+
+#Include interval = “confidence” to also report the lower and upper bounds of the 95% CI for model fit at each year
+
+future_predict <- predict(salmon_model, newdata = new_years, interval = "confidence") 
+future_predict
+
+#Bind the prediction outcomes (those are the values in column ‘fit’) with the ‘new_years’ data to actually create a useful table of predicted imports and upper and lower CI:
+
+predictions <- data.frame(new_years, future_predict) 
+predictions
+```
+
+```{r}
+#Find Pearson's r (correlation!!!)
+
+salmon_cor <- cor.test(salmon$year, salmon$salmon_fresh)
+salmon_cor
+
+#Would you describe this as a weak/strong negative/positive correlation?
+#Strong positive? (0.974)
+
+#Concluding statement about the relationship: 
+
+#Year significantly predicts salmon imports (b = 7550, t(26) = 21.7, p < 0.001) with a strong positive correlation between the two (Pearson's r = 0.97).The overall model (Imports(tons) = 7550 + -14982940(Year); units) explains a significant amount of variance in salmon imports (F(1,26) = 472, p < 0.001, R2 = 0.95) 
 ```
 
