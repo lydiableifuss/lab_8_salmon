@@ -9,3 +9,62 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+library(tidyverse)
+salmon <- read_csv("salmon_imports.csv")
+```
+
+```{r}
+#exploratory scatterplot
+
+salmon_scatter <- salmon %>% 
+  ggplot(aes(x = year, y = salmon_fresh)) +
+  geom_point()
+
+salmon_scatter
+
+#Overall, does it look like describing the relationship between year and fresh salmon imports using linear regression makes sense? - YES
+
+#Do you have any concerns about using linear regression to describe the relationship? - CLEAR DIPS IN LINEAR DATA TREND 
+```
+
+```{r}
+#Linear Regression in R
+
+salmon_model <- lm(salmon_fresh ~ year, data = salmon)
+salmon_model
+
+#y = β0 + β1x + ε
+#Imports(tons) = -14982940 + ?(7550)
+
+#???????? Where is the slope here? Is it -14982940? Is the intercept the year at 7550? What is the 25 (from the example in this case?)
+
+# What does the slope mean in the context of this model?
+#It's massive and doesn't make sense?
+
+#What does the y-intercept mean in the context of this model? Why is that concerning? 
+#Super far is the future and doesn't make sense? 
+
+#What does this mean about extrapolating this model for past values?
+#Don't do it because it all is confusing 
+
+```
+
+```{r}
+#Model Diagnostics
+
+plot(salmon_model)
+
+#Do residuals appear normally distributed? - Some more than others, need to understand the specifics behind how they work more 
+#Any concerns about heteroscedasticity or outliers? - Yes fo sho concerns, residuals are looking funky
+
+
+  par(mfrow = c(2,2))
+  plot(salmon_model)
+```
+
+```{r}
+#Explore model fit and significance
+
+```
+
